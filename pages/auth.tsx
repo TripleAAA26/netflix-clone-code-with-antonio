@@ -20,7 +20,8 @@ export default function Auth() {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login')
     }, [])
 
-    const login = useCallback(async () => {
+    const login = useCallback(async (e?:any) => {
+        e.preventDefault()
         try {
             await signIn('credentials', {
                 email,

@@ -26,14 +26,14 @@ export default function Auth() {
                 email,
                 password,
                 redirect: false,
-                callbackUrl: '/profiles',
+                callbackUrl: '/',
             })
 
             router.push('/profiles')
         } catch (error) {
             console.log(error)
         }
-    }, [email, password])
+    }, [email, password, router])
 
     const register = useCallback(async () => {
         try {

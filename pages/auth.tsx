@@ -1,11 +1,29 @@
 import Input from '@/components/Input'
 import { useCallback, useState } from 'react'
 import axios from 'axios'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import { NextPageContext } from 'next'
+
+export async function getServerSideProps(context: NextPageContext) {
+    const session = await getSession(context)
+
+    if (session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
+}
 
 export default function Auth() {
     const router = useRouter()
@@ -20,8 +38,7 @@ export default function Auth() {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login')
     }, [])
 
-    const login = useCallback(async (e?:any) => {
-        e.preventDefault()
+    const login = useCallback(async () => {
         try {
             await signIn('credentials', {
                 email,
